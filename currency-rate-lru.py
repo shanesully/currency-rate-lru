@@ -24,7 +24,7 @@ class ExchangeRate:
 class CurrencyCache:
     def __init__(self, capacity):
         self.capacity = capacity
-        self.currency_priority = []
+        self.currency_priority = set()
         self.current_currency_rates = {}
         
     def get(self, baseCurrency: Currency):
@@ -34,7 +34,7 @@ class CurrencyCache:
 
         print(f'Putting {rate.base} into cache')
         if len(self.currency_priority) > self.capacity:
-            popped_currency = self.currency_priority.pop()
+            popped_currency = self.currency_priority.pop().base
             del self.current_currency_rates[popped_currency]
             
             print("Currency cache exceeds capacity of: {} removing: {} from cache"
@@ -45,7 +45,7 @@ class CurrencyCache:
 
         print("Adding currency: {} too list".format(currency))
         self.current_currency_rates[currency] = rate
-        self.currency_priority.append(currency)
+        self.currency_priority.add(currency)
 
 class ExchangeRateApiClient:
     
